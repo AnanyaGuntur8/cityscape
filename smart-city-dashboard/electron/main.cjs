@@ -14,7 +14,7 @@ const createWindow = () => {
 
   if (isDev) {
     win.loadURL('http://localhost:5173');
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
   } else {
     win.loadFile(path.join(__dirname, '../dist/index.html'));
   }
