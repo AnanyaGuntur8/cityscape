@@ -1,0 +1,166 @@
+/* ===========================
+   Fullscreen & Base Styling
+   =========================== */
+   html, body, #root, .welcome-container {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: #1c1c1c; /* Dark gray background */
+    font-family: 'Segoe UI', sans-serif;
+    color: white;
+  }
+  
+  .welcome-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  /* ===========================
+     Blueprint Grid Lines
+     =========================== */
+  .blueprint-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(0deg, rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: moveGrid 20s linear infinite;
+    z-index: 0;
+  }
+  
+  @keyframes moveGrid {
+    from { background-position: 0 0; }
+    to { background-position: 60px 60px; }
+  }
+  
+  /* ===========================
+     Liquid Glass Title Card
+     =========================== */
+  .overlay {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    margin-bottom: 8vh;
+    padding: 2rem 5rem;
+    border-radius: 15px;
+  
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    box-shadow:
+      0 0 40px rgba(0, 170, 255, 0.5),
+      inset 0 0 70px rgba(255, 255, 255, 0.03);
+    overflow: hidden;
+  
+    --shine-x: 50%;
+    --shine-y: 50%;
+  }
+  
+  .overlay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 15px;
+    background: radial-gradient(
+      circle at var(--shine-x) var(--shine-y),
+      rgba(255, 255, 255, 0.2),
+      transparent 60%
+    );
+    pointer-events: none;
+    transition: background 0.1s;
+  }
+  
+  /* ===========================
+     Title & Subtitle Text
+     =========================== */
+  .title {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 0.2em;
+  }
+  
+  .city {
+    color: #00aaff;
+    text-shadow: 0 0 25px rgba(0, 170, 255, 0.7);
+  }
+  
+  .scape {
+    color: #ffffff;
+    text-shadow: 0 0 25px rgba(255, 255, 255, 0.7);
+  }
+  
+  .subtitle {
+    font-size: 1.2rem;
+    opacity: 0.8;
+    letter-spacing: 0.05em;
+  }
+  
+  /* ===========================
+     SVG City Lines (Dimmer White Buildings)
+     =========================== */
+  .city-svg {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    stroke: rgba(255, 255, 255, 0.4); /* Reduced opacity for dim city lines */
+    stroke-width: 2;
+    fill: none;
+    z-index: 5;
+  }
+  
+  .city-lines path {
+    stroke-dasharray: 600;
+    stroke-dashoffset: 600;
+    animation: draw 6s ease-out forwards; /* slower drawing */
+    animation-delay: var(--delay, 0s);
+    filter: drop-shadow(0 0 6px rgba(255,255,255,0.4));
+    opacity: 0.4; /* dim buildings */
+  }
+  
+  /* Varying building styles */
+  .city-lines path:nth-child(odd) {
+    stroke-width: 2;
+  }
+  
+  .city-lines path:nth-child(even) {
+    stroke-width: 1.5;
+    stroke-dasharray: 400;
+  }
+  
+  /* Staggered animation delays for each building path */
+  .city-lines path:nth-child(1) { animation-delay: 0s; }
+  .city-lines path:nth-child(2) { animation-delay: 0.4s; }
+  .city-lines path:nth-child(3) { animation-delay: 0.8s; }
+  .city-lines path:nth-child(4) { animation-delay: 1.2s; }
+  .city-lines path:nth-child(5) { animation-delay: 1.6s; }
+  .city-lines path:nth-child(6) { animation-delay: 2s; }
+  .city-lines path:nth-child(7) { animation-delay: 2.4s; }
+  .city-lines path:nth-child(8) { animation-delay: 2.8s; }
+  .city-lines path:nth-child(9) { animation-delay: 3.2s; }
+  .city-lines path:nth-child(10) { animation-delay: 3.6s; }
+  .city-lines path:nth-child(11) { animation-delay: 4s; }
+  .city-lines path:nth-child(12) { animation-delay: 4.4s; }
+  
+  @keyframes draw {
+    0% {
+      stroke-dashoffset: 600;
+      opacity: 0;
+    }
+    100% {
+      stroke-dashoffset: 0;
+      opacity: 0.4; /* keep buildings dim */
+    }
+  }
+  
