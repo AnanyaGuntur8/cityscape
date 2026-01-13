@@ -6,11 +6,35 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert("Login will be implemented once backend is ready!");
-    console.log({ email, password });
-  };
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const res = await fetch("http://localhost:8000/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      alert(data.detail || "Login failed");
+      return;
+    }
+
+    const data = await res.json();
+    console.log("Login response:", data);
+
+    // Save JWT token for later use
+    localStorage.setItem("access_token", data.access_token);
+
+    alert("Logged in!");
+    // later: navigate("/dashboard");
+  } catch (err) {
+    console.error(err);
+    alert("Network or server error during login");
+  }
+};
 
   return (
     <div className="login-container">

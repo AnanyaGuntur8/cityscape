@@ -5,10 +5,31 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSignUp = (e) => {
-    e.preventDefault();
-    console.log("Sign Up:", { email, password });
-  };
+  const handleSignUp = async (e) => {
+  e.preventDefault();
+
+  try {
+    const res = await fetch("http://localhost:8000/users", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      alert(data.detail || "Sign up failed");
+      return;
+    }
+
+    const user = await res.json();
+    console.log("Signed up:", user);
+    alert("Account created! You can log in now.");
+    // later: navigate("/login");
+  } catch (err) {
+    console.error(err);
+    alert("Network or server error during signup");
+  }
+};
 
   return (
     <div className="signup-container">
